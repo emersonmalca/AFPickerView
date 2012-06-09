@@ -15,23 +15,7 @@
 
 @interface AFPickerView : UIView <UIScrollViewDelegate>
 {
-    __unsafe_unretained id <AFPickerViewDataSource> dataSource;
-    __unsafe_unretained id <AFPickerViewDelegate> delegate;
-    UIScrollView *contentView;
-    UIImageView *glassImageView;
     
-    int currentRow;
-    int rowsCount; 
-    
-    CGPoint previousOffset;
-    BOOL isScrollingUp;
-    
-    // recycling
-    NSMutableSet *recycledViews;
-    NSMutableSet *visibleViews;
-    
-    UIFont *_rowFont;
-    CGFloat _rowIndent;
 }
 
 @property (nonatomic, unsafe_unretained) id <AFPickerViewDataSource> dataSource;
@@ -39,19 +23,12 @@
 @property (nonatomic, unsafe_unretained) int selectedRow;
 @property (nonatomic, strong) UIFont *rowFont;
 @property (nonatomic, unsafe_unretained) CGFloat rowIndent;
+@property (nonatomic, unsafe_unretained) CGFloat rowHeight;
 
-
-- (void)setup;
+- (void)setShadowsImage:(UIImage *)image;
+- (void)setCornerRadius:(CGFloat)radius;
+- (void)setSelectionIndicatorImage:(UIImage *)image;
 - (void)reloadData;
-- (void)determineCurrentRow;
-- (void)didTap:(id)sender;
-- (void)makeSteps:(int)steps;
-
-// recycle queue
-- (UIView *)dequeueRecycledView;
-- (BOOL)isDisplayingViewForIndex:(NSUInteger)index;
-- (void)tileViews;
-- (void)configureView:(UIView *)view atIndex:(NSUInteger)index;
 
 @end
 
