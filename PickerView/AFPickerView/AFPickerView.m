@@ -314,6 +314,7 @@
 			if (label == nil)
             {
 				label = [[UILabel alloc] initWithFrame:CGRectMake(_rowIndent, 0, self.frame.size.width - _rowIndent, _rowHeight)];
+                label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
                 label.backgroundColor = [UIColor clearColor];
                 label.font = self.rowFont;
                 label.textColor = RGBACOLOR(0.0, 0.0, 0.0, 0.75);
