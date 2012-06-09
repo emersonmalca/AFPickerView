@@ -44,7 +44,8 @@
 
 
 @protocol AFPickerViewDelegate <NSObject>
-
+@optional
 - (void)pickerView:(AFPickerView *)pickerView didSelectRow:(NSInteger)row;
-
+- (Class)labelClassForPickerView:(AFPickerView *)pickerView;
+- (void)pickerView:(AFPickerView *)pickerView willDisplayLabel:(UILabel *)label forRowAtIndex:(NSInteger *)index;
 @end

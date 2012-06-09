@@ -313,7 +313,13 @@
             
 			if (label == nil)
             {
-				label = [[UILabel alloc] initWithFrame:CGRectMake(_rowIndent, 0, self.frame.size.width - _rowIndent, _rowHeight)];
+                Class labelClass = nil;
+                if ([self.delegate respondsToSelector:@selector(labelClassForPickerView:)]) {
+                    labelClass = [self.delegate labelClassForPickerView:self];
+                } else {
+                    labelClass = [UILabel class];
+                }
+				label = [[labelClass alloc] initWithFrame:CGRectMake(_rowIndent, 0, self.frame.size.width - _rowIndent, _rowHeight)];
                 label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
                 label.backgroundColor = [UIColor clearColor];
                 label.font = self.rowFont;
@@ -321,6 +327,9 @@
             }
             
             [self configureView:label atIndex:index];
+            if ([self.delegate respondsToSelector:@selector(pickerView:willDisplayLabel:forRowAtIndex:)]) {
+                [self.delegate pickerView:self willDisplayLabel:label forRowAtIndex:&index];
+            }
             [_contentView addSubview:label];
             [visibleViews addObject:label];
         }
