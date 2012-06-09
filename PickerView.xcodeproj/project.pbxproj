@@ -24,6 +24,7 @@
 		0A3DA686147E3EB100143ADF /* pickerShadows@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A3DA680147E3EB100143ADF /* pickerShadows@2x.png */; };
 		0A3DA68D147E53B700143ADF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3DA68C147E53B700143ADF /* QuartzCore.framework */; };
 		C8C9A4611583D04B002D5F45 /* AFNumberPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C9A4601583D049002D5F45 /* AFNumberPickerView.m */; };
+		C8C9A4641583DF03002D5F45 /* EMExpandablePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C9A4631583DF02002D5F45 /* EMExpandablePickerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,8 @@
 		0A3DA68C147E53B700143ADF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C8C9A45F1583D048002D5F45 /* AFNumberPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNumberPickerView.h; sourceTree = "<group>"; };
 		C8C9A4601583D049002D5F45 /* AFNumberPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNumberPickerView.m; sourceTree = "<group>"; };
+		C8C9A4621583DF01002D5F45 /* EMExpandablePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMExpandablePickerView.h; sourceTree = "<group>"; };
+		C8C9A4631583DF02002D5F45 /* EMExpandablePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMExpandablePickerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +132,8 @@
 				0A3DA679147E3E7C00143ADF /* AFPickerView.m */,
 				C8C9A45F1583D048002D5F45 /* AFNumberPickerView.h */,
 				C8C9A4601583D049002D5F45 /* AFNumberPickerView.m */,
+				C8C9A4621583DF01002D5F45 /* EMExpandablePickerView.h */,
+				C8C9A4631583DF02002D5F45 /* EMExpandablePickerView.m */,
 			);
 			name = AFPickerView;
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				0A3DA66E147E3D9700143ADF /* ViewController.m in Sources */,
 				0A3DA67A147E3E7C00143ADF /* AFPickerView.m in Sources */,
 				C8C9A4611583D04B002D5F45 /* AFNumberPickerView.m in Sources */,
+				C8C9A4641583DF03002D5F45 /* EMExpandablePickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

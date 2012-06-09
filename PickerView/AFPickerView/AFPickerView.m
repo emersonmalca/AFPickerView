@@ -24,31 +24,15 @@
 
 @end
 
-@implementation AFPickerView {
-    UIImageView *_shadows;
-    UIScrollView *_contentView;
-    UIImageView *_selectionIndicator;
-
-    int rowsCount; 
-    
-    CGPoint previousOffset;
-    BOOL isScrollingUp;
-    
-    // recycling
-    NSMutableSet *recycledViews;
-    NSMutableSet *visibleViews;
-    
-    UIFont *_rowFont;
-    CGFloat _rowIndent;
-}
+@implementation AFPickerView 
 
 #pragma mark - Synthesization
 
 @synthesize dataSource=_dataSource;
 @synthesize delegate=_delegate;
 @synthesize selectedRow = currentRow;
-@synthesize rowFont = _rowFont;
-@synthesize rowIndent = _rowIndent;
+@synthesize rowFont=_rowFont;
+@synthesize rowIndent=_rowIndent;
 @synthesize rowHeight=_rowHeight;
 
 
@@ -169,6 +153,7 @@
     _rowFont = [UIFont boldSystemFontOfSize:24.0];
     _rowIndent = 30.0;
     _rowHeight = 39.0;
+    _numOfFillerRows = 0;
     
     currentRow = 0;
     rowsCount = 0;
@@ -183,9 +168,11 @@
 
 - (void)reloadData
 {
-    // empry views
-    currentRow = 0;
+    // empty views
     rowsCount = 0;
+    
+    //Calculate optimum number of filler rows
+    _numOfFillerRows = (ceilf(self.frame.size.height/_rowHeight) - 1)/2;
     
     for (UIView *aView in visibleViews) 
         [aView removeFromSuperview];
@@ -197,9 +184,12 @@
     recycledViews = [[NSMutableSet alloc] init];
     
     rowsCount = [_dataSource numberOfRowsInPickerView:self];
-    [_contentView setContentOffset:CGPointMake(0.0, 0.0) animated:NO];
-    _contentView.contentSize = CGSizeMake(_contentView.frame.size.width, _rowHeight * rowsCount + 4 * _rowHeight);    
+    if (currentRow >= rowsCount) {
+        currentRow = 0;
+    }
+    _contentView.contentSize = CGSizeMake(_contentView.frame.size.width, _rowHeight * rowsCount + _numOfFillerRows*2 * _rowHeight);    
     [self tileViews];
+    [_contentView setContentOffset:CGPointMake(0.0, _rowHeight * currentRow) animated:NO];
 }
 
 
@@ -221,7 +211,7 @@
 {
     UITapGestureRecognizer *tapRecognizer = (UITapGestureRecognizer *)sender;
     CGPoint point = [tapRecognizer locationInView:self];
-    int steps = floor(point.y / _rowHeight) - 2;
+    int steps = floor(point.y / _rowHeight) - _numOfFillerRows;
     [self makeSteps:steps];
 }
 
@@ -230,7 +220,7 @@
 
 - (void)makeSteps:(int)steps
 {
-    if (steps == 0 || steps > 2 || steps < -2)
+    if (steps == 0 || steps > _numOfFillerRows || steps < -_numOfFillerRows)
         return;
     
     [_contentView setContentOffset:CGPointMake(0.0, _rowHeight * currentRow) animated:NO];
@@ -238,9 +228,9 @@
     int newRow = currentRow + steps;
     if (newRow < 0 || newRow >= rowsCount)
     {
-        if (steps == -2)
+        if (steps == -_numOfFillerRows)
             [self makeSteps:-1];
-        else if (steps == 2)
+        else if (steps == _numOfFillerRows)
             [self makeSteps:1];
         
         return;
@@ -272,7 +262,7 @@
 	BOOL foundPage = NO;
     for (UIView *aView in visibleViews) 
 	{
-        int viewIndex = aView.frame.origin.y / _rowHeight - 2;
+        int viewIndex = aView.frame.origin.y / _rowHeight - _numOfFillerRows;
         if (viewIndex == index) 
 		{
             foundPage = YES;
@@ -289,15 +279,15 @@
 {
     // Calculate which pages are visible
     CGRect visibleBounds = _contentView.bounds;
-    int firstNeededViewIndex = floorf(CGRectGetMinY(visibleBounds) / _rowHeight) - 2;
-    int lastNeededViewIndex  = floorf((CGRectGetMaxY(visibleBounds) / _rowHeight)) - 2;
+    int firstNeededViewIndex = floorf(CGRectGetMinY(visibleBounds) / _rowHeight) - _numOfFillerRows;
+    int lastNeededViewIndex  = floorf((CGRectGetMaxY(visibleBounds) / _rowHeight)) - _numOfFillerRows;
     firstNeededViewIndex = MAX(firstNeededViewIndex, 0);
     lastNeededViewIndex  = MIN(lastNeededViewIndex, rowsCount - 1);
 	
     // Recycle no-longer-visible pages 
 	for (UIView *aView in visibleViews) 
     {
-        int viewIndex = aView.frame.origin.y / _rowHeight - 2;
+        int viewIndex = aView.frame.origin.y / _rowHeight - _numOfFillerRows;
         if (viewIndex < firstNeededViewIndex || viewIndex > lastNeededViewIndex) 
         {
             [recycledViews addObject:aView];
@@ -330,6 +320,7 @@
             }
             
             [self configureView:label atIndex:index];
+            
             if ([self.delegate respondsToSelector:@selector(pickerView:willDisplayLabel:forRowAtIndex:)]) {
                 [self.delegate pickerView:self willDisplayLabel:label forRowAtIndex:&index];
             }
@@ -347,7 +338,7 @@
     UILabel *label = (UILabel *)view;
     label.text = [_dataSource pickerView:self titleForRow:index];
     CGRect frame = label.frame;
-    frame.origin.y = _rowHeight * index + _rowHeight*2;
+    frame.origin.y = _rowHeight * index + _rowHeight*_numOfFillerRows;
     label.frame = frame;
 }
 

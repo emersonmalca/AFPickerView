@@ -15,7 +15,28 @@
 
 @interface AFPickerView : UIView <UIScrollViewDelegate>
 {
+    __unsafe_unretained id <AFPickerViewDataSource> _dataSource;
+    __unsafe_unretained id <AFPickerViewDelegate> _delegate;
     
+    UIImageView *_shadows;
+    UIScrollView *_contentView;
+    UIImageView *_selectionIndicator;
+    
+    int rowsCount; 
+    
+    CGPoint previousOffset;
+    BOOL isScrollingUp;
+    
+    // recycling
+    NSMutableSet *recycledViews;
+    NSMutableSet *visibleViews;
+    
+    UIFont *_rowFont;
+    CGFloat _rowIndent;
+    NSInteger _numOfFillerRows;
+    CGFloat _rowHeight;
+    int currentRow;
+
 }
 
 @property (nonatomic, unsafe_unretained) id <AFPickerViewDataSource> dataSource;
