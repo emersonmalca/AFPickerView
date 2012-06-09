@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AFPickerView.h"
+#import "AFNumberPickerView.h"
 
 @interface ViewController : UIViewController <AFPickerViewDataSource, AFPickerViewDelegate>
 {
-    AFPickerView *defaultPickerView;
+    AFNumberPickerView *defaultPickerView;
     AFPickerView *daysPickerView;
     NSArray *daysData;
 }

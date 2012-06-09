@@ -27,14 +27,15 @@
     
     daysData = [[NSArray alloc] initWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
     
-    defaultPickerView = [[AFPickerView alloc] initWithFrame:CGRectMake(30.0, 30.0, 126.0, 197.0)];
-    defaultPickerView.dataSource = self;
+    defaultPickerView = [[AFNumberPickerView alloc] initWithFrame:CGRectMake(30.0, 30.0, 126.0, 197.0)];
     defaultPickerView.delegate = self;
+    [defaultPickerView setMaxNumber:50];
     [defaultPickerView setShadowsImage:[UIImage imageNamed:@"pickerShadows.png"]];
     [defaultPickerView setSelectionIndicatorImage:[UIImage imageNamed:@"pickerGlass.png"]];
     defaultPickerView.backgroundColor = [UIColor whiteColor];
     [defaultPickerView setCornerRadius:5];
     [defaultPickerView reloadData];
+    [defaultPickerView setNumber:25];
     [self.view addSubview:defaultPickerView];
     
     daysPickerView = [[AFPickerView alloc] initWithFrame:CGRectMake(30.0, 250.0, 126.0, 197.0)];
@@ -55,10 +56,7 @@
 
 - (NSInteger)numberOfRowsInPickerView:(AFPickerView *)pickerView
 {
-    if (pickerView == daysPickerView)
-        return [daysData count];
-    
-    return 100;
+    return [daysData count];
 }
 
 
@@ -66,14 +64,8 @@
 
 - (NSString *)pickerView:(AFPickerView *)pickerView titleForRow:(NSInteger)row
 {
-    if (pickerView == daysPickerView)
-        return [daysData objectAtIndex:row];
-    
-    return [NSString stringWithFormat:@"%i", row + 1];
+    return [daysData objectAtIndex:row];
 }
-
-
-
 
 #pragma mark - AFPickerViewDelegate
 

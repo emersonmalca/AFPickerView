@@ -58,7 +58,10 @@
 - (void)setSelectedRow:(int)selectedRow
 {
     if (selectedRow >= rowsCount)
-        return;
+        selectedRow = rowsCount-1;
+    if (selectedRow < 0) {
+        selectedRow = 0;
+    }
     
     currentRow = selectedRow;
     [_contentView setContentOffset:CGPointMake(0.0, _rowHeight * currentRow) animated:NO];
